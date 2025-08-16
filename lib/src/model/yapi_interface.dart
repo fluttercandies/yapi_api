@@ -74,9 +74,9 @@ class YapiInterface {
     this.reqBodyForm,
     this.v,
     this.username,
+    this.reqBodyOther,
   });
 
-  /// Creates a YapiInterface from JSON data with proper type casting and null safety
   /// Creates a YapiInterface from JSON data with proper type casting and null safety
   factory YapiInterface.fromJson(Map<String, dynamic> json) {
     // Parse tags array safely
@@ -91,7 +91,6 @@ class YapiInterface {
       }
     }
 
-    // Parse request headers array safely
     // Parse request headers array safely
     final List<ReqHeaders>? reqHeaders =
         json['req_headers'] is List ? <ReqHeaders>[] : null;
@@ -108,7 +107,6 @@ class YapiInterface {
     }
 
     // Parse request query parameters array safely
-    // Parse request query parameters array safely
     final List<ReqQuery>? reqQuery =
         json['req_query'] is List ? <ReqQuery>[] : null;
     if (reqQuery != null) {
@@ -122,7 +120,6 @@ class YapiInterface {
     }
 
     // Parse request path parameters array safely
-    // Parse request path parameters array safely
     final List<ReqParams>? reqParams =
         json['req_params'] is List ? <ReqParams>[] : null;
     if (reqParams != null) {
@@ -135,7 +132,6 @@ class YapiInterface {
       }
     }
 
-    // Parse request body form parameters array safely
     // Parse request body form parameters array safely
     final List<ReqBodyForm>? reqBodyForm =
         json['req_body_form'] is List ? <ReqBodyForm>[] : null;
@@ -186,6 +182,7 @@ class YapiInterface {
       reqBodyForm: reqBodyForm,
       v: asT<int>(json['__v']),
       username: asT<String>(json['username']),
+      reqBodyOther: asT<String>(json['req_body_other']),
     );
   }
 
@@ -239,6 +236,9 @@ class YapiInterface {
 
   /// Query parameters for the request
   final List<ReqQuery>? reqQuery;
+
+  /// Alternative request body formats
+  final String? reqBodyOther;
 
   /// Response body content/schema
   final String? resBody;
@@ -319,6 +319,7 @@ class YapiInterface {
         'req_body_form': reqBodyForm,
         '__v': v,
         'username': username,
+        'req_body_other': reqBodyOther,
       };
 }
 
@@ -360,7 +361,6 @@ class QueryPath {
       };
 }
 
-/// Represents an HTTP request header with validation rules
 /// Represents an HTTP request header with validation rules
 class ReqHeaders {
   const ReqHeaders({
@@ -423,7 +423,6 @@ class ReqHeaders {
 }
 
 /// Represents a URL query parameter with validation rules
-/// Represents a URL query parameter with validation rules
 class ReqQuery {
   const ReqQuery({
     this.name,
@@ -484,7 +483,6 @@ class ReqQuery {
       };
 }
 
-/// Represents a URL path parameter (e.g., /users/{id})
 /// Represents a URL path parameter (e.g., /users/{id})
 class ReqParams {
   const ReqParams({this.name, this.example, this.desc, this.id});

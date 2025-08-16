@@ -67,7 +67,6 @@ class YapiProject {
   });
 
   /// Creates a YapiProject from JSON data with proper type casting and null safety
-  /// Creates a YapiProject from JSON data with proper type casting and null safety
   factory YapiProject.fromJson(Map<String, dynamic> json) {
     // Parse environment configurations array safely
     final List<Env>? env = json['env'] is List ? <Env>[] : null;
@@ -82,7 +81,6 @@ class YapiProject {
     }
 
     // Parse project tags array safely
-    // Parse project tags array safely
     final List<Tag>? tag = json['tag'] is List ? <Tag>[] : null;
     if (tag != null) {
       for (final dynamic item in json['tag']! as List<dynamic>) {
@@ -95,7 +93,6 @@ class YapiProject {
     }
 
     // Parse interface categories array safely
-    // Parse interface categories array safely
     final List<Cat>? cat = json['cat'] is List ? <Cat>[] : null;
     if (cat != null) {
       for (final dynamic item in json['cat']! as List<dynamic>) {
@@ -107,7 +104,6 @@ class YapiProject {
       }
     }
 
-    // Parse project members array safely
     // Parse project members array safely
     final List<Members>? members = json['members'] is List ? <Members>[] : null;
     if (members != null) {
@@ -236,8 +232,6 @@ class YapiProject {
 
 /// Represents an environment configuration for API testing
 /// Contains headers, global variables, and domain settings for different environments
-/// Represents an environment configuration for API testing
-/// Contains headers, global variables, and domain settings for different environments
 class Env {
   const Env({this.header, this.global, this.id, this.name, this.domain});
 
@@ -306,7 +300,6 @@ class Env {
 }
 
 /// Represents a tag for categorizing and organizing interfaces
-/// Represents a tag for categorizing and organizing interfaces
 class Tag {
   const Tag({this.id, this.name, this.desc});
 
@@ -339,7 +332,6 @@ class Tag {
       };
 }
 
-/// Represents an interface category for organizing APIs within a project
 /// Represents an interface category for organizing APIs within a project
 class Cat {
   const Cat({
@@ -413,7 +405,6 @@ class Cat {
       };
 }
 
-/// Represents a project member with their role and permissions
 /// Represents a project member with their role and permissions
 class Members {
   const Members({this.uid, this.role});
