@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export 'src/yapi_api_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/api.dart';
+export 'src/model/yapi_interface.dart';
+export 'src/model/yapi_project.dart';
