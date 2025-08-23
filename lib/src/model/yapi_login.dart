@@ -44,46 +44,36 @@ class YapiLoginResponse {
 class YapiLogin {
   /// Constructor for YapiLogin
   const YapiLogin({
-    this.customFiled1,
     this.type,
-    this.id,
+    this.study,
     this.uid,
-    this.group,
     this.addTime,
     this.upTime,
     this.role,
+    this.username,
+    this.email,
   });
 
   /// Creates a YapiLogin from JSON data
   factory YapiLogin.fromJson(Map<String, dynamic> json) => YapiLogin(
-        customFiled1: json['custom_filed1'] == null
-            ? null
-            : CustomFiled1.fromJson(
-                asT<Map<String, dynamic>>(json['custom_filed1'])!,
-              ),
         type: asT<String>(json['type']),
-        id: asT<int>(json['_id']),
+        study: asT<bool>(json['study']),
         uid: asT<int>(json['uid']),
-        group: asT<String>(json['group']),
         addTime: asT<int>(json['add_time']),
         upTime: asT<int>(json['up_time']),
         role: asT<String>(json['role']),
+        username: asT<String>(json['username']),
+        email: asT<String>(json['email']),
       );
-
-  /// Custom field data (optional)
-  final CustomFiled1? customFiled1;
 
   /// Login type (e.g., 'user', 'admin')
   final String? type;
 
-  /// Unique identifier for the login
-  final int? id;
+  /// Indicates if the user is a student
+  final bool? study;
 
   /// User ID
   final int? uid;
-
-  /// Group name or ID
-  final String? group;
 
   /// Timestamp when login was created
   final int? addTime;
@@ -94,6 +84,12 @@ class YapiLogin {
   /// Role of the user (e.g., 'owner', 'guest')
   final String? role;
 
+  /// Username of the user
+  final String? username;
+
+  /// Email of the user
+  final String? email;
+
   @override
   String toString() {
     return jsonEncode(this);
@@ -101,34 +97,13 @@ class YapiLogin {
 
   /// Converts the login data to JSON format
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'custom_filed1': customFiled1,
         'type': type,
-        '_id': id,
+        'study': study,
         'uid': uid,
-        'group': group,
         'add_time': addTime,
         'up_time': upTime,
         'role': role,
+        'username': username,
+        'email': email,
       };
-}
-
-/// Represents a custom field in login data
-class CustomFiled1 {
-  /// Constructor for CustomFiled1
-  const CustomFiled1({this.enable});
-
-  /// Creates a CustomFiled1 from JSON data
-  factory CustomFiled1.fromJson(Map<String, dynamic> json) =>
-      CustomFiled1(enable: asT<bool>(json['enable']));
-
-  /// Whether the custom field is enabled
-  final bool? enable;
-
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
-
-  /// Converts the custom field to JSON format
-  Map<String, dynamic> toJson() => <String, dynamic>{'enable': enable};
 }
