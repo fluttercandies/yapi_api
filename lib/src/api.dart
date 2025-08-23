@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:yapi_api/src/model/yapi_interface.dart';
+import 'package:yapi_api/src/model/yapi_login.dart';
+import 'package:yapi_api/src/model/yapi_logout.dart';
 import 'package:yapi_api/src/model/yapi_project.dart';
 
 /// API helper class for interacting with YApi server
@@ -26,6 +28,86 @@ class YapiApiHelper {
 
   /// Authentication cookie for YApi server access
   String cookie = '';
+
+  /// Logs in to the YApi server using provided email and password
+  Future<YapiLoginResponse?> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      // Validate that required configuration is set
+      assert(baseUrl.isNotEmpty, 'Base URL must be set');
+
+      // Make HTTP POST request to YApi login endpoint
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/user/login'),
+        body: <String, dynamic>{
+          'email': email,
+          'password': password,
+        },
+      );
+
+      // Check if request was successful
+      if (response.statusCode == 200) {
+        // Parse JSON response and return login data
+        YapiLoginResponse yapiLoginResponse = YapiLoginResponse.fromJson(
+            jsonDecode(response.body) as Map<String, dynamic>);
+
+        // Save cookie from response headers if needed
+        if (yapiLoginResponse.errcode == 0) {
+          final setCookie = response.headers['set-cookie'];
+          if (setCookie != null) {
+            setCookie.split(';').forEach(
+              (element) {
+                if (element.contains('yapi_token')) {
+                  cookie =
+                      '${element.trim()}; _yapi_uid=${yapiLoginResponse.data?.uid}';
+                }
+              },
+            );
+          }
+        }
+
+        return yapiLoginResponse;
+      } else {
+        throw Exception('Failed to login');
+      }
+    } catch (e) {
+      // Log error and return null on failure
+      log('Error fetching login: $e');
+      return null;
+    }
+  }
+
+  /// Logs out from the YApi server
+  Future<YapiLogoutResponse?> logout() async {
+    try {
+      // Validate that required configuration is set
+      assert(baseUrl.isNotEmpty, 'Base URL must be set');
+      assert(cookie.isNotEmpty, 'Cookie must be set');
+
+      // Make HTTP GET request to YApi interface endpoint
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/user/logout'),
+        headers: <String, String>{
+          'Cookie': cookie,
+        },
+      );
+
+      // Check if request was successful
+      if (response.statusCode == 200) {
+        // Parse JSON response and return interface data
+        return YapiLogoutResponse.fromJson(
+            jsonDecode(response.body) as Map<String, dynamic>);
+      } else {
+        throw Exception('Failed to load interface');
+      }
+    } catch (e) {
+      // Log error and return null on failure
+      log('Error fetching interface: $e');
+      return null;
+    }
+  }
 
   /// Fetches interface details from YApi server by interface ID
   ///
