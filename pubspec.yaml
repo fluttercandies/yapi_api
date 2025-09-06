@@ -1,6 +1,6 @@
 name: yapi_api
 description: A Dart package for interacting with YApi server APIs. Provides easy-to-use methods to fetch interface and project data from YApi with proper authentication and error handling.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/fluttercandies/yapi_api
 
 environment:
